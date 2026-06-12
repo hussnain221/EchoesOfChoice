@@ -209,14 +209,22 @@ screen choice(items):
 
     vbox:
         at choice_appear
-        for i in items:
-            textbutton i.caption action i.action
+        for index, i in enumerate(items):
+            textbutton i.caption:
+                action i.action
+                at choice_item_appear(index)
 
 transform choice_appear:
     on show:
         alpha 0.0
         yoffset 18
         easein .18 alpha 1.0 yoffset 0
+
+transform choice_item_appear(index=0):
+    alpha 0.0
+    xoffset -18
+    pause (0.04 * index)
+    easeout 0.22 alpha 1.0 xoffset 0
 
 
 style choice_vbox is vbox
@@ -232,6 +240,8 @@ style choice_vbox:
 
 style choice_button is default:
     properties gui.button_properties("choice_button")
+    hover_sound "audio/terminal.wav"
+    activate_sound "audio/terminal.wav"
 
 style choice_button_text is default:
     properties gui.text_properties("choice_button")
@@ -256,6 +266,7 @@ screen quick_menu():
 
             textbutton _("Back") action Rollback()
             textbutton _("History") action ShowMenu('history')
+            textbutton _("Log") action ShowMenu('mission_status')
             textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
             textbutton _("Auto") action Preference("auto-forward", "toggle")
             textbutton _("Save") action ShowMenu('save')
@@ -301,6 +312,7 @@ screen navigation():
 
     vbox:
         style_prefix "navigation"
+        at nav_appear
 
         xpos gui.navigation_xpos
         yalign 0.5
@@ -320,6 +332,8 @@ screen navigation():
         textbutton _("Load") action ShowMenu("load")
 
         textbutton _("Preferences") action ShowMenu("preferences")
+
+        textbutton _("Mission Log") action ShowMenu("mission_status")
 
         if _in_replay:
 
@@ -383,6 +397,7 @@ screen main_menu():
 
         vbox:
             style "main_menu_vbox"
+            at main_title_appear
 
             text "[config.name!t]":
                 style "main_menu_title"
@@ -445,6 +460,7 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
 
     frame:
         style "game_menu_outer_frame"
+        at menu_panel_appear
 
         hbox:
 
@@ -454,6 +470,7 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
 
             frame:
                 style "game_menu_content_frame"
+                at content_panel_appear
 
                 if scroll == "viewport":
 
@@ -503,6 +520,29 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
 
     if main_menu:
         key "game_menu" action ShowMenu("main_menu")
+
+transform nav_appear:
+    on show:
+        alpha 0.0
+        xoffset -18
+        easeout 0.25 alpha 1.0 xoffset 0
+
+transform main_title_appear:
+    on show:
+        alpha 0.0
+        yoffset 18
+        easeout 0.35 alpha 1.0 yoffset 0
+
+transform menu_panel_appear:
+    on show:
+        alpha 0.0
+        easein 0.18 alpha 1.0
+
+transform content_panel_appear:
+    on show:
+        alpha 0.0
+        xoffset 18
+        easeout 0.25 alpha 1.0 xoffset 0
 
 
 style game_menu_outer_frame is empty
@@ -1570,6 +1610,7 @@ screen quick_menu():
             style_prefix "quick"
 
             textbutton _("Back") action Rollback()
+            textbutton _("Log") action ShowMenu('mission_status')
             textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
             textbutton _("Auto") action Preference("auto-forward", "toggle")
             textbutton _("Menu") action ShowMenu()

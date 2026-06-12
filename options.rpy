@@ -30,7 +30,9 @@ define config.version = "1.0"
 ## triple-quotes, and leave a blank line between paragraphs.
 
 define gui.about = _p("""
-The Last Signal is a compact sci-fi visual novel about trust, survival, and the last message from Meridian-7.
+The Last Signal is a sci-fi visual novel about trust, survival, and the last message from Meridian-7.
+
+Player choices affect Nova's trust, Kain's exposure, collected evidence, the terminal puzzle, and the final ending route.
 """)
 
 
@@ -187,6 +189,8 @@ init python:
     build.classify('game/cache/**', None)
     build.classify('game/saves/**', None)
     build.classify('game/**.rpyc', None)
+    build.classify('game/images/alex chroma.png', None)
+    build.classify('game/images/alex neutral original.png', None)
 
     ## To archive files, classify them as 'archive'.
 
