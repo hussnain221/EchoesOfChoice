@@ -12,7 +12,7 @@
 ##
 ## The _() surrounding the string marks it as eligible for translation.
 
-define config.name = _("EchoesOfChoice")
+define config.name = _("The Last Signal")
 
 
 ## Determines if the title given above is shown on the main menu screen. Set
@@ -30,6 +30,7 @@ define config.version = "1.0"
 ## triple-quotes, and leave a blank line between paragraphs.
 
 define gui.about = _p("""
+The Last Signal is a compact sci-fi visual novel about trust, survival, and the last message from Meridian-7.
 """)
 
 
@@ -62,7 +63,7 @@ define config.has_voice = True
 ## the player is at the main menu. This file will continue playing into the
 ## game, until it is stopped or another file is played.
 
-# define config.main_menu_music = "main-menu-theme.ogg"
+define config.main_menu_music = "audio/ambient_space.mp3"
 
 
 ## Transitions #################################################################
@@ -183,6 +184,9 @@ init python:
     build.classify('**/.**', None)
     build.classify('**/#**', None)
     build.classify('**/thumbs.db', None)
+    build.classify('game/cache/**', None)
+    build.classify('game/saves/**', None)
+    build.classify('game/**.rpyc', None)
 
     ## To archive files, classify them as 'archive'.
 

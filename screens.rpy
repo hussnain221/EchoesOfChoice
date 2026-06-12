@@ -208,8 +208,15 @@ screen choice(items):
     style_prefix "choice"
 
     vbox:
+        at choice_appear
         for i in items:
             textbutton i.caption action i.action
+
+transform choice_appear:
+    on show:
+        alpha 0.0
+        yoffset 18
+        easein .18 alpha 1.0 yoffset 0
 
 
 style choice_vbox is vbox
@@ -218,7 +225,7 @@ style choice_button_text is button_text
 
 style choice_vbox:
     xalign 0.5
-    ypos 270
+    ypos 300
     yanchor 0.5
 
     spacing gui.choice_spacing
@@ -228,6 +235,7 @@ style choice_button is default:
 
 style choice_button_text is default:
     properties gui.text_properties("choice_button")
+    outlines [(1, "#001116", 0, 1)]
 
 
 ## Quick Menu screen ###########################################################
@@ -270,12 +278,14 @@ style quick_button_text is button_text
 style quick_menu:
     xalign 0.5
     yalign 1.0
+    yoffset -6
 
 style quick_button:
     properties gui.button_properties("quick_button")
 
 style quick_button_text:
     properties gui.text_properties("quick_button")
+    outlines [(1, "#001116", 0, 1)]
 
 
 ################################################################################
@@ -339,9 +349,13 @@ style navigation_button_text is gui_button_text
 style navigation_button:
     size_group "navigation"
     properties gui.button_properties("navigation_button")
+    xsize 250
+    ysize 46
 
 style navigation_button_text:
     properties gui.text_properties("navigation_button")
+    bold True
+    outlines [(1, "#001116", 0, 1)]
 
 
 ## Main Menu screen ############################################################
@@ -384,26 +398,31 @@ style main_menu_title is main_menu_text
 style main_menu_version is main_menu_text
 
 style main_menu_frame:
-    xsize 280
+    xsize 330
     yfill True
 
     background "gui/overlay/main_menu.png"
 
 style main_menu_vbox:
     xalign 1.0
-    xoffset -20
-    xmaximum 800
+    xoffset -46
+    xmaximum 760
     yalign 1.0
-    yoffset -20
+    yoffset -38
 
 style main_menu_text:
     properties gui.text_properties("main_menu", accent=True)
+    textalign 1.0
+    outlines [(2, "#001116", 0, 2)]
 
 style main_menu_title:
     properties gui.text_properties("title")
+    color "#ffffff"
+    outlines [(2, "#001116", 0, 3)]
 
 style main_menu_version:
     properties gui.text_properties("version")
+    color gui.idle_small_color
 
 
 ## Game Menu screen ############################################################
@@ -500,22 +519,26 @@ style return_button is navigation_button
 style return_button_text is navigation_button_text
 
 style game_menu_outer_frame:
-    bottom_padding 30
-    top_padding 120
+    bottom_padding 38
+    top_padding 118
 
     background "gui/overlay/game_menu.png"
 
 style game_menu_navigation_frame:
-    xsize 280
+    xsize 330
     yfill True
 
 style game_menu_content_frame:
-    left_margin 40
-    right_margin 20
-    top_margin 10
+    left_margin 24
+    right_margin 42
+    top_margin 0
+    bottom_margin 10
+    xfill True
+    background Frame("gui/frame.png", gui.frame_borders, tile=gui.frame_tile)
+    padding (28, 24, 28, 24)
 
 style game_menu_viewport:
-    xsize 920
+    xsize 860
 
 style game_menu_vscrollbar:
     unscrollable gui.unscrollable
@@ -524,18 +547,19 @@ style game_menu_side:
     spacing 10
 
 style game_menu_label:
-    xpos 50
+    xpos 44
     ysize 120
 
 style game_menu_label_text:
-    size 50
-    color gui.accent_color
+    size 44
+    color "#ffffff"
+    outlines [(2, "#001116", 0, 2)]
     yalign 0.5
 
 style return_button:
     xpos gui.navigation_xpos
     yalign 1.0
-    yoffset -30
+    yoffset -34
 
 
 ## About screen ################################################################
@@ -702,7 +726,7 @@ style slot_name_text is slot_button_text
 
 style page_label:
     xpadding 50
-    ypadding 3
+    ypadding 6
     xalign 0.5
 
 style page_label_text:
@@ -712,15 +736,20 @@ style page_label_text:
 
 style page_button:
     properties gui.button_properties("page_button")
+    ysize 34
 
 style page_button_text:
     properties gui.text_properties("page_button")
+    xalign 0.5
 
 style slot_button:
     properties gui.button_properties("slot_button")
+    xpadding 14
+    ypadding 12
 
 style slot_button_text:
     properties gui.text_properties("slot_button")
+    top_margin 4
 
 
 ## Preferences screen ##########################################################
@@ -737,9 +766,11 @@ screen preferences():
     use game_menu(_("Preferences"), scroll="viewport"):
 
         vbox:
+            spacing 12
 
             hbox:
                 box_wrap True
+                spacing 28
 
                 if renpy.variant("pc") or renpy.variant("web"):
 
@@ -764,6 +795,7 @@ screen preferences():
             hbox:
                 style_prefix "slider"
                 box_wrap True
+                spacing 36
 
                 vbox:
 
@@ -843,9 +875,11 @@ style pref_label:
 
 style pref_label_text:
     yalign 1.0
+    color gui.accent_color
+    outlines [(1, "#001116", 0, 1)]
 
 style pref_vbox:
-    xsize 225
+    xsize 255
 
 style radio_vbox:
     spacing gui.pref_button_spacing
@@ -868,7 +902,7 @@ style check_button_text:
     properties gui.text_properties("check_button")
 
 style slider_slider:
-    xsize 350
+    xsize 390
 
 style slider_button:
     properties gui.button_properties("slider_button")
@@ -879,7 +913,7 @@ style slider_button_text:
     properties gui.text_properties("slider_button")
 
 style slider_vbox:
-    xsize 450
+    xsize 430
 
 
 ## History screen ##############################################################
@@ -945,6 +979,8 @@ style history_label_text is gui_label_text
 style history_window:
     xfill True
     ysize gui.history_height
+    background Frame("gui/frame.png", gui.frame_borders, tile=gui.frame_tile)
+    padding (18, 12, 18, 12)
 
 style history_name:
     xpos gui.history_name_xpos
@@ -1190,10 +1226,13 @@ style confirm_frame:
     padding gui.confirm_frame_borders.padding
     xalign .5
     yalign .5
+    xmaximum 740
 
 style confirm_prompt_text:
     textalign 0.5
     layout "subtitle"
+    color "#ffffff"
+    outlines [(1, "#001116", 0, 1)]
 
 style confirm_button:
     properties gui.button_properties("confirm_button")
